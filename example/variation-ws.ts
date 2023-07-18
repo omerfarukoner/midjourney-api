@@ -16,8 +16,7 @@ async function main() {
     Ws: true, //enable ws is required for remix mode
   });
   await client.init(); //init auto enable remix mode
-  const prompt =
-    "48 year old woman with auburn hair plays video games on a tablet in her bedroom and is a chemist. Engaged. Happy. Evening. Silver blue walls in room. In the style of anime. does not exceed 10 MB.";
+  const prompt = "the queen of the underworld, race";
   const Imagine = await client.Imagine(
     prompt,
     (uri: string, progress: string) => {
@@ -30,55 +29,42 @@ async function main() {
     return;
   }
   const Variation = await client.Variation({
-    index: 1,
+    index: 2,
     msgId: <string>Imagine.id,
     hash: <string>Imagine.hash,
     flags: Imagine.flags,
     content: prompt,
     loading: (uri: string, progress: string) => {
-      console.log("Variation1.loading", uri, "progress", progress);
+      console.log("Variation2.loading", uri, "progress", progress);
     },
   });
   console.log("Variation", Variation);
-  client
-    .Variation({
-      index: 2,
-      msgId: <string>Imagine.id,
-      hash: <string>Imagine.hash,
-      flags: Imagine.flags,
-      loading: (uri: string, progress: string) => {
-        console.log("Variation2.loading", uri, "progress", progress);
-      },
-    })
-    .then((msg2) => {
-      console.log({ msg2 });
-    });
-  client
-    .Variation({
-      index: 3,
-      msgId: <string>Imagine.id,
-      hash: <string>Imagine.hash,
-      flags: Imagine.flags,
-      loading: (uri: string, progress: string) => {
-        console.log("Variation3.loading", uri, "progress", progress);
-      },
-    })
-    .then((msg3) => {
-      console.log({ msg3 });
-    });
-  client
-    .Variation({
-      index: 4,
-      msgId: <string>Imagine.id,
-      hash: <string>Imagine.hash,
-      flags: Imagine.flags,
-      loading: (uri: string, progress: string) => {
-        console.log("Variation4.loading", uri, "progress", progress);
-      },
-    })
-    .then((msg4) => {
-      console.log({ msg4 });
-    });
+  // await client
+  //   .Variation({
+  //     index: 2,
+  //     msgId: <string>Imagine.id,
+  //     hash: <string>Imagine.hash,
+  //     flags: Imagine.flags,
+  //     loading: (uri: string, progress: string) => {
+  //       console.log("Variation2.loading", uri, "progress", progress);
+  //     },
+  //   })
+  //   .then((msg2) => {
+  //     console.log({ msg2 });
+  //   });
+  // client
+  //   .Variation({
+  //     index: 3,
+  //     msgId: <string>Imagine.id,
+  //     hash: <string>Imagine.hash,
+  //     flags: Imagine.flags,
+  //     loading: (uri: string, progress: string) => {
+  //       console.log("Variation3.loading", uri, "progress", progress);
+  //     },
+  //   })
+  //   .then((msg3) => {
+  //     console.log({ msg3 });
+  //   });
 }
 main().catch((err) => {
   console.error(err);
