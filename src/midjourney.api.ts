@@ -9,7 +9,8 @@ import {
   UploadParam,
   UploadSlot,
 } from "./interfaces";
-
+import async from "async";
+import path from "path";
 import { nextNonce, sleep } from "./utils";
 import { Command } from "./command";
 import async from "async";
@@ -19,6 +20,7 @@ export class MidjourneyApi extends Command {
   constructor(public config: MJConfig) {
     super(config);
   }
+
   private safeIteractions = (request: any) => {
     return new Promise<number>((resolve, reject) => {
       this.queue.push(
@@ -49,7 +51,6 @@ export class MidjourneyApi extends Command {
     callback(httpStatus);
     await sleep(this.config.ApiInterval);
   };
-  private queue = async.queue(this.processRequest, 1);
   private interactions = async (payload: any) => {
     try {
       const headers = {
@@ -76,12 +77,11 @@ export class MidjourneyApi extends Command {
       return 500;
     }
   };
-
+  private queue = async.queue(this.processRequest, 1);
   async ImagineApi(prompt: string, nonce: string = nextNonce()) {
     const payload = await this.imaginePayload(prompt, nonce);
     return this.safeIteractions(payload);
   }
-
   async SwitchRemixApi(nonce: string = nextNonce()) {
     const payload = await this.PreferPayload(nonce);
     return this.safeIteractions(payload);
@@ -91,7 +91,6 @@ export class MidjourneyApi extends Command {
     const payload = await this.shortenPayload(prompt, nonce);
     return this.safeIteractions(payload);
   }
-
   async VariationApi({
     index,
     msgId,
@@ -112,7 +111,6 @@ export class MidjourneyApi extends Command {
       nonce,
     });
   }
-
   async UpscaleApi({
     index,
     msgId,
@@ -133,7 +131,6 @@ export class MidjourneyApi extends Command {
       nonce,
     });
   }
-
   async RerollApi({
     msgId,
     hash,
@@ -182,7 +179,6 @@ export class MidjourneyApi extends Command {
     };
     return this.safeIteractions(payload);
   }
-
   //FIXME: get SubmitCustomId from discord api
   async ModalSubmitApi({
     nonce,
@@ -224,7 +220,6 @@ export class MidjourneyApi extends Command {
     console.log("submitCustomId", JSON.stringify(payload));
     return this.safeIteractions(payload);
   }
-
   async RemixApi({
     nonce,
     msgId,
@@ -244,7 +239,6 @@ export class MidjourneyApi extends Command {
       submitCustomId: RemixModalSubmitID,
     });
   }
-
   async ShortenImagineApi({
     nonce,
     msgId,
@@ -313,22 +307,18 @@ export class MidjourneyApi extends Command {
     const payload = await this.infoPayload(nonce);
     return this.safeIteractions(payload);
   }
-
   async SettingsApi(nonce?: string) {
     const payload = await this.settingsPayload(nonce);
     return this.safeIteractions(payload);
   }
-
   async FastApi(nonce?: string) {
     const payload = await this.fastPayload(nonce);
     return this.safeIteractions(payload);
   }
-
   async RelaxApi(nonce?: string) {
     const payload = await this.relaxPayload(nonce);
     return this.safeIteractions(payload);
   }
-
   /**
    *
    * @param fileUrl http file path
@@ -357,7 +347,6 @@ export class MidjourneyApi extends Command {
     };
     return resp;
   }
-
   async UploadImageByBole(blob: Blob, filename = nextNonce() + ".png") {
     const fileData = await blob.arrayBuffer();
     const mimeType = blob.type;
@@ -408,7 +397,6 @@ export class MidjourneyApi extends Command {
     } ${await response.text()}`;
     throw new Error(error);
   }
-
   private async uploadImage(
     slot: UploadSlot,
     data: ArrayBuffer,
@@ -429,7 +417,6 @@ export class MidjourneyApi extends Command {
       );
     }
   }
-
   async DescribeApi(image: DiscordImage, nonce?: string) {
     const payload = await this.describePayload(image, nonce);
     return this.safeIteractions(payload);

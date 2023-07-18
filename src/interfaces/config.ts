@@ -47,7 +47,7 @@ export const DefaultMJConfig: MJConfig = {
   BotId: MJBot,
   ChannelId: "1077800642086703114",
   SalaiToken: "",
-  ApiInterval: 350,
+  ApiInterval: 950,
   SessionId: "8bb7f5b79c7a49f7d0824ab4b8773a81",
   Debug: false,
   Limit: 50,
