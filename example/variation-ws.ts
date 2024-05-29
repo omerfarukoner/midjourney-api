@@ -17,6 +17,7 @@ async function main() {
   });
   await client.init(); //init auto enable remix mode
   const prompt = "the queen of the underworld, race";
+  const prompt = "the queen of the underworld, race";
   const Imagine = await client.Imagine(
     prompt,
     (uri: string, progress: string) => {

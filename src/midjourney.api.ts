@@ -11,6 +11,8 @@ import {
 } from "./interfaces";
 import async from "async";
 import path from "path";
+import async from "async";
+import path from "path";
 import { nextNonce, sleep } from "./utils";
 import { Command } from "./command";
 import async from "async";
@@ -20,6 +22,7 @@ export class MidjourneyApi extends Command {
   constructor(public config: MJConfig) {
     super(config);
   }
+
 
   private safeIteractions = (request: any) => {
     return new Promise<number>((resolve, reject) => {
